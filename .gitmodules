@@ -4,3 +4,6 @@
 [submodule "lib/zorb"]
 	path = lib/zorb
 	url = https://github.com/ourzora/zorb
+[submodule "lib/solmate"]
+	path = lib/solmate
+	url = https://github.com/rari-capital/solmate
