@@ -9,6 +9,9 @@ contract ZorbFridge is ERC721 {
     IZorbLike internal zorb;
     IPublicSharedMetadata private immutable sharedMetadata;
 
+    event Frozen(address indexed actor, uint256 tokenId);
+    event Unfrozen(address indexed actor, uint256 tokenId);
+
     constructor(IZorbLike _zorb, IPublicSharedMetadata _metadataUtils)
         payable
         ERC721("Frozen Zorbs", "FZORB")
@@ -19,6 +22,7 @@ contract ZorbFridge is ERC721 {
 
     function freeze(uint256 tokenId) public {
         _mint(msg.sender, tokenId);
+        emit Frozen(msg.sender, tokenId);
 
         zorb.transferFrom(msg.sender, address(this), tokenId);
     }
@@ -27,6 +31,7 @@ contract ZorbFridge is ERC721 {
         require(ownerOf[tokenId] == msg.sender, "not owner");
 
         _burn(tokenId);
+        emit Unfrozen(msg.sender, tokenId);
 
         zorb.transferFrom(address(this), msg.sender, tokenId);
     }
@@ -48,5 +53,16 @@ contract ZorbFridge is ERC721 {
                     '"}'
                 )
             );
+    }
+
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes calldata
+    ) external view returns (bytes4) {
+        require(msg.sender == address(zorb), "not a zorb");
+
+        return this.onERC721Received.selector;
     }
 }

@@ -2,8 +2,6 @@
 pragma solidity ^0.8.10;
 
 interface IZorbLike {
-    function ownerOf(uint256 tokenId) external view returns (address);
-
     function transferFrom(
         address from,
         address to,

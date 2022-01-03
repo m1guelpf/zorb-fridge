@@ -1,0 +1,4 @@
+testNonOwnerCannotFreeze() (gas: 63795)
+testNonOwnerCannotUnfreeze() (gas: 93284)
+testOwnerCanFreeze() (gas: 92486)
+testOwnerCanUnfreeze() (gas: 126239)
