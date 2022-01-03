@@ -5,6 +5,8 @@ import "solmate/tokens/ERC721.sol";
 import "./interfaces/IZorbLike.sol";
 import "./interfaces/IPublicSharedMetadata.sol";
 
+/// @title A fridge for all your Zorbs
+/// @author Miguel Piedrafita
 contract ZorbFridge is ERC721 {
     IZorbLike internal zorb;
     IPublicSharedMetadata private immutable sharedMetadata;
@@ -20,6 +22,7 @@ contract ZorbFridge is ERC721 {
         sharedMetadata = _metadataUtils;
     }
 
+    /// @notice Freeze your `tokenId` Zorb in place
     function freeze(uint256 tokenId) public {
         _mint(msg.sender, tokenId);
         emit Frozen(msg.sender, tokenId);
@@ -27,6 +30,7 @@ contract ZorbFridge is ERC721 {
         zorb.transferFrom(msg.sender, address(this), tokenId);
     }
 
+    /// @notice Unfreeze your `tokenId` Zorb, returning its design to your wallet's
     function unfreeze(uint256 tokenId) public {
         require(ownerOf[tokenId] == msg.sender, "not owner");
 
